@@ -1,0 +1,13 @@
+.profile-img{
+    opacity: 0.8;
+    padding: 5px;
+    border-radius: 20px;
+    border: 1px solid #ddd;
+    height: 200px;
+}
+
+.profile-div{
+	text-align: center;
+	/*color: blue;*/
+	/*text-align: justify;*/
+}

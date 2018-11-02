@@ -1,0 +1,102 @@
+
+<div class="main-content">
+  <div class="container-fluid">
+      <div class="card card-plain">
+          <div class="card-header card-header-danger">
+              <h4 class="card-title">Farms You Own</h4>
+              <!-- <p class="card-category">Handcrafted by our friends from
+                  <a target="_blank" href="https://design.google.com/icons/">Google</a>
+              </p> -->
+          </div>
+          <div class="row" >
+            <!-- <a routerLink="/dashboard">lol</a> -->
+            <div class="col-md-4" *ngFor="let farm of farms; let img = 'http://127.0.0.1:8000'" >
+               <!-- <a routerLink="/dashboard"> -->
+                <div class="card card-chart" (click)="goToCrops(farm.id)" >
+                    <div >
+                        <!-- <div class="ct-chart" id="websiteViewsChart"></div> -->
+                        <img class ="profile-img" src="http://127.0.0.1:8000{{farm.farmImage}}"/>
+                    </div>
+                    <div class="card-body" >
+                        <h4 class="card-title">{{farm.farm_name}}</h4>
+                        <p class="card-category">{{farm.about}}</p>
+                        <p class="card-category">longitude: {{farm.longitude}}</p>
+                        <p class="card-category">latitude: {{farm.latitude}}</p>
+                    </div>
+                    <div class="card-footer">
+                        <div class="stats">
+                            <i class="material-icons">access_time</i> {{farm.created_on}}
+                        </div>
+                    </div>
+                </div>
+              <!-- </a> -->
+            </div>
+          </div>
+         <!--  <div class="row">
+              <div class="col-md-12">
+                  <div class="card-body">
+                      <div class="iframe-container d-none d-lg-block">
+                          <iframe src="https://design.google.com/icons/">
+                              <p>Your browser does not support iframes.</p>
+                          </iframe>
+                      </div>
+                      <div class="col-md-12 d-none d-sm-block d-md-block d-lg-none d-block d-sm-none text-center ml-auto mr-auto">
+                          <h5>The icons are visible on Desktop mode inside an iframe. Since the iframe is not working on Mobile and Tablets please visit the icons on their original page on Google. Check the
+                              <a href="https://design.google.com/icons/" target="_blank">Material Icons</a>
+                          </h5>
+                      </div>
+                  </div>
+              </div>
+          </div> -->
+      </div>
+  </div>
+</div>
+
+
+  <div class="container-fluid">
+      <div class="row">
+          <div class="col-md-12">
+              <div class="card">
+                  <div class="card-header card-header-danger">
+                      <h4 class="card-title">Add Farm</h4>
+                      <p class="card-category">Please Fill The Details</p>
+                  </div>
+                  <div class="card-body">
+                      <form>
+                      
+                          <div class="row">
+                              <div class="col-md-6">
+                                <mat-form-field class="example-full-width">
+                                  <input matInput placeholder="Farm Name" #name type="text">
+                                </mat-form-field>
+                              </div>
+                              
+                          </div>
+                          <div class="row">
+                              <div class="col-md-12">
+                                <mat-form-field class="example-full-width">
+                                  <input matInput placeholder="Farm Address" #address type="text">
+                                </mat-form-field>
+                              </div>
+                          </div>
+                           <div class="row">
+                              <div class="col-md-4">
+                                <mat-form-field class="example-full-width">
+                                  <input matInput placeholder="Latitude" #lat type="number">
+                                </mat-form-field>
+                              </div>
+                              <div class="col-md-4">
+                                <mat-form-field class="example-full-width">
+                                  <input matInput placeholder="Longitude" #long type="number">
+                                </mat-form-field>
+                              </div>
+                          </div>
+                          <button mat-raised-button type="submit" class="btn btn-danger pull-right" (click)="addFarm(name.value, address.value, lat.value, long.value)">Update Profile</button>
+                          <div class="clearfix"></div>
+                      </form>
+                  </div>
+              </div>
+          </div>
+      </div>
+</div>
+

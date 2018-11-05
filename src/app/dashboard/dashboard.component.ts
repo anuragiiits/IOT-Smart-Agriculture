@@ -14,6 +14,7 @@ export class DashboardComponent implements OnInit {
   crop_id:string;
   crops:crop[];
   sensors:sensor[];
+  weatherApiData:weatherApiData[];
   constructor(private dataService:DataService, private router:Router, private activatedRouter:ActivatedRoute ) 
   {
     console.log("starting dataService...")
@@ -25,6 +26,7 @@ export class DashboardComponent implements OnInit {
     this.dataService.getUsers().subscribe((users)=>{
       console.log(users);
     });
+
     //  this.dataService.getFarm().subscribe((farms)=>{
     //     console.log(farms);
     //     // this.userP=farms
@@ -177,6 +179,14 @@ export class DashboardComponent implements OnInit {
       //start animation for the Emails Subscription Chart
       this.startAnimationForBarChart(websiteViewsChart);
   }
+  WeatherData()
+  {
+      this.dataService.getWeatherData().subscribe((data)=>{
+        console.log(data);
+        this.weatherApiData=data.list
+        console.log("this.weatherApiData",this.weatherApiData)
+      });
+  }
   cropSensors(crop_id)
   {
     this.crop_id=crop_id
@@ -240,3 +250,34 @@ interface crop
         "color":string,
         "icon":string
  }
+ interface main
+ {
+    "temp": string,
+    "temp_min": string,
+    "temp_max": string,
+    "pressure": string,
+    "sea_level": string,
+    "grnd_level": string,
+    "humidity": string,
+    "temp_kf": string
+}
+interface wind 
+{
+    "speed": string,
+    "deg": string
+}
+interface weather
+{
+    "id": string,
+    "main": string,
+    "description": string,
+    "icon":string
+}
+
+interface weatherApiData
+{
+    "dt_txt":string,
+    "main":main,
+    "wind":wind,
+    "weather":weather[]
+}

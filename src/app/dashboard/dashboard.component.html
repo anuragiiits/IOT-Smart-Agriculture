@@ -190,7 +190,7 @@
           </div>
       </div>
       <div class="row">
-                  <div class="col-lg-6 col-md-12">
+                  <div class="col-lg-6 col-md-12" >
               <div class="card">
                   <div class="card-header card-header-warning">
                       <h3 class="card-title">Types Of Crops In This Farm.</h3>
@@ -218,7 +218,7 @@
                   </div>
               </div>
           </div>
-
+          <!-- <div (click)="WeatherData()" style="margin-left: 50%">fire</div> -->
           <div class="col-lg-6 col-md-12">
               <div class="card">
                   <div class="card-header card-header-tabs card-header-primary">
@@ -228,26 +228,33 @@
                               <ul class="nav nav-tabs" data-tabs="tabs">
                                   <li class="nav-item">
                                       <a mat-button class="nav-link active" href="#profile" data-toggle="tab">
-                                          <i class="material-icons">bug_report</i> Bugs
+                                          <i class="material-icons">chat_bubble_outline</i>ChatBot
                                           <div class="ripple-container"></div>
                                       </a>
                                   </li>
                                   <li class="nav-item">
                                       <a mat-button class="nav-link" href="#messages" data-toggle="tab">
-                                          <i class="material-icons">code</i> Website
+                                          <i class="material-icons">shopping_basket</i> Market
                                           <div class="ripple-container"></div>
                                       </a>
                                   </li>
                                   <li class="nav-item">
                                       <a mat-button class="nav-link" href="#settings" data-toggle="tab">
-                                          <i class="material-icons">cloud</i> Server
+                                          <i class="material-icons">cloud</i> Weather
                                           <div class="ripple-container"></div>
                                       </a>
+                                  </li>
+                                  <li >
+                                         <button (click)="WeatherData()" mat-raised-button type="button" matTooltip="Refresh" [matTooltipPosition]="'above'" class="large btn btn-muted btn-link  btn-just-icon" style="color: white">
+                                           <i class="material-icons" >refresh</i>
+                                         </button>
                                   </li>
                               </ul>
                           </div>
                       </div>
+                      
                   </div>
+
                   <div class="card-body">
                       <div class="tab-content">
                           <div class="tab-pane active" id="profile">
@@ -390,10 +397,10 @@
                                   </tbody>
                               </table>
                           </div>
-                          <div class="tab-pane" id="settings">
+                          <div class="tab-pane scroll" id="settings" >
                               <table class="table">
                                   <tbody>
-                                      <tr>
+                                      <!-- <tr>
                                           <td>
                                               <div class="form-check">
                                                   <label class="form-check-label">
@@ -435,27 +442,62 @@
                                                   <i class="material-icons">close</i>
                                               </button>
                                           </td>
-                                      </tr>
-                                      <tr>
+                                      </tr> -->
+                                      <tr *ngFor="let data of weatherApiData">
                                           <td>
                                               <div class="form-check">
-                                                  <label class="form-check-label">
+                                                  <!-- <label class="form-check-label">
                                                       <input class="form-check-input" type="checkbox" value="" checked>
                                                       <span class="form-check-sign">
                                                           <span class="check"></span>
                                                       </span>
-                                                  </label>
+                                                  </label> -->
+                                                  <img src="http://openweathermap.org/img/w/{{data.weather[0].icon}}.png">  
                                               </div>
                                           </td>
-                                          <td>Sign contract for "What are conference organizers afraid of?"</td>
-                                          <td class="td-actions text-right">
+                                          <td>
+                                              <!-- weather{{data.weather[0].description}}<br>
+                                              icon{{data.weather[0].icon}}<br> -->
+                                              
+                                          
+                                             <!-- <img src="http://openweathermap.org/img/w/{{data.weather[0].icon}}.png">   -->
+                                             <h3>
+                                             {{data.weather[0].description}}
+                                             </h3>
+                                                <table class="table">
+                                                    <tbody>
+                                                          <tr>
+                                                               <th>wind speed</th>
+                                                                <th>humidity</th>
+                                                                <th>pressure</th>
+                                                                <th>temperature</th>
+
+                                                          </tr>
+                                                          <tr>
+                                                                <td>{{data.wind.speed}}</td>
+                                                                <td>{{data.main.humidity}}</td>
+                                                                <td>{{data.main.pressure}}</td>
+                                                                <td>{{data.main.temp}}</td>
+                                                          </tr>
+                                                          
+                                                         
+                                                    </tbody>
+                                                </table>
+                                              <!-- wind speed: {{data.wind.speed}}<br>
+                                              humidity: {{data.main.humidity}}<br>
+                                              pressure: {{data.main.pressure}}<br>
+                                              temp: {{data.main.temp}}<br> -->
+                                              <h5 class="card-category text-gray" style="font-size: 13px;margin-left: 60%">{{data.dt_txt.split(' ')[1]}} | {{data.dt_txt.split(' ')[0]}}</h5>
+                                            
+                                         </td>
+                                          <!-- <td class="td-actions text-right">
                                               <button mat-raised-button type="button" matTooltip="Edit Task" [matTooltipPosition]="'above'" class="btn btn-primary btn-link btn-sm btn-just-icon">
                                                   <i class="material-icons">edit</i>
                                               </button>
                                               <button mat-raised-button type="button" matTooltip="Remove" [matTooltipPosition]="'above'" class="btn btn-danger btn-link btn-sm btn-just-icon">
                                                   <i class="material-icons">close</i>
                                               </button>
-                                          </td>
+                                          </td> -->
                                       </tr>
                                   </tbody>
                               </table>

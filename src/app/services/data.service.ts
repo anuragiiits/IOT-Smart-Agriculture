@@ -18,4 +18,7 @@ export class DataService {
 	getSensors(crop_id){
 		return this.http.get('http://127.0.0.1:8000/sensor/?crop_id='+crop_id).map(res=>res.json());
 	}
+	getWeatherData(){
+		return this.http.get('http://api.openweathermap.org/data/2.5/forecast?lat=13.553271&lon=80.018179&units=metric&APPID=e372629b1d097d7fe3fb3cd87dcd3f6b').map(res=>res.json());
+	}
 }

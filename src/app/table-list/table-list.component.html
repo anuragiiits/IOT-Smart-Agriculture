@@ -1,133 +1,68 @@
 <div class="main-content">
   <div class="container-fluid">
+    <!--  <button mat-raised-button class="btn btn-danger btn-block" (click)="showNotification('bottom','left')">Bottom Left</button> -->
       <div class="row">
           <div class="col-md-12">
               <div class="card">
                   <div class="card-header card-header-danger">
-                      <h4 class="card-title ">Simple Table</h4>
-                      <p class="card-category"> Here is a subtitle for this table</p>
+                      <h4 class="card-title ">Commodities For Sale</h4>
+                      <p class="card-category"> Here is the detailed report about the transactions.</p>
                   </div>
                   <div class="card-body">
                       <div class="table-responsive">
                           <table class="table">
                               <thead class=" text-primary">
-                                  <th>
-                                      ID
+                                <th>
+                                      Id
                                   </th>
+                                <th>
+                                      Image
+                                  </th>
+                                  
                                   <th>
                                       Name
                                   </th>
                                   <th>
-                                      Country
+                                      Description
                                   </th>
                                   <th>
-                                      City
+                                      Quantity
                                   </th>
                                   <th>
-                                      Salary
+                                      Price(per unit)
+                                  </th>
+                                  <th>
+                                      Sold
                                   </th>
                               </thead>
                               <tbody>
-                                  <tr>
+                                  <tr *ngFor="let item of items; let img = 'http://127.0.0.1:8000'" >
+                                   <td>
+                                            {{item.id}}
+                                    </td>
+                                    <td >
+                                        <img class ="profile-img" src="http://127.0.0.1:8000{{item.itemImage}}" height="100px" width="150px" />
+                                    </td>
+                                      
                                       <td>
-                                          1
+                                          {{item.product_title}}
                                       </td>
                                       <td>
-                                          Dakota Rice
+                                         {{item.product_description}}
                                       </td>
                                       <td>
-                                          Niger
-                                      </td>
-                                      <td>
-                                          Oud-Turnhout
+                                          {{item.product_quantity}}
                                       </td>
                                       <td class="text-primary">
-                                          $36,738
+                                          {{item.product_price}}Rs
                                       </td>
-                                  </tr>
-                                  <tr>
-                                      <td>
-                                          2
-                                      </td>
-                                      <td>
-                                          Minerva Hooper
-                                      </td>
-                                      <td>
-                                          Curaçao
-                                      </td>
-                                      <td>
-                                          Sinaai-Waas
-                                      </td>
-                                      <td class="text-primary">
-                                          $23,789
-                                      </td>
-                                  </tr>
-                                  <tr>
-                                      <td>
-                                          3
-                                      </td>
-                                      <td>
-                                          Sage Rodriguez
-                                      </td>
-                                      <td>
-                                          Netherlands
-                                      </td>
-                                      <td>
-                                          Baileux
-                                      </td>
-                                      <td class="text-primary">
-                                          $56,142
-                                      </td>
-                                  </tr>
-                                  <tr>
-                                      <td>
-                                          4
-                                      </td>
-                                      <td>
-                                          Philip Chaney
-                                      </td>
-                                      <td>
-                                          Korea, South
-                                      </td>
-                                      <td>
-                                          Overland Park
-                                      </td>
-                                      <td class="text-primary">
-                                          $38,735
-                                      </td>
-                                  </tr>
-                                  <tr>
-                                      <td>
-                                          5
-                                      </td>
-                                      <td>
-                                          Doris Greene
-                                      </td>
-                                      <td>
-                                          Malawi
-                                      </td>
-                                      <td>
-                                          Feldkirchen in Kärnten
-                                      </td>
-                                      <td class="text-primary">
-                                          $63,542
-                                      </td>
-                                  </tr>
-                                  <tr>
-                                      <td>
-                                          6
-                                      </td>
-                                      <td>
-                                          Mason Porter
-                                      </td>
-                                      <td>
-                                          Chile
-                                      </td>
-                                      <td>
-                                          Gloucester
-                                      </td>
-                                      <td class="text-primary">
-                                          $78,615
+                                      <td >
+                                        <div *ngIf="item.sold" class="text-success" >
+                                           <!-- <h4>Yes</h4> -->
+                                          <button mat-raised-button class="btn btn-success" (click)="showNotification('top','right',item.id)">Yes</button>
+                                        </div> 
+                                        <div *ngIf="!item.sold" class="text-danger">No</div>  
+                                        
                                       </td>
                                   </tr>
                               </tbody>
@@ -136,7 +71,102 @@
                   </div>
               </div>
           </div>
-          <div class="col-md-12">
+
+
+
+          <div class="col-md-6">
+              <div class="card">
+                  <div class="card-header card-header-danger">
+                      <h4 class="card-title">Add Commodities For Sale</h4>
+                      <p class="card-category">Please Fill The Details</p>
+                  </div>
+                  <div class="card-body">
+                      <form>
+                      
+                          <div class="row">
+                              <div class="col-md-6">
+                                <mat-form-field class="example-full-width">
+                                  <input matInput placeholder="Name" #product_title type="text">
+                                </mat-form-field>
+                              </div>
+                              
+                          </div>
+                          <div class="row">
+                              <div class="col-md-12">
+                                <mat-form-field class="example-full-width">
+                                  <input matInput placeholder="Description" #product_description type="text">
+                                </mat-form-field>
+                              </div>
+                          </div>
+                           <div class="row">
+                              <div class="col-md-4">
+                                <mat-form-field class="example-full-width">
+                                  <input matInput placeholder="Price(per unit)" #product_price type="number">
+                                </mat-form-field>
+                              </div>
+                              <div class="col-md-4">
+                                <mat-form-field class="example-full-width">
+                                  <input matInput placeholder="Quantity" #product_quantity type="number">
+                                </mat-form-field>
+                              </div>
+                          </div>
+                          <button mat-raised-button type="submit" class="btn btn-danger pull-right" (click)="addItem(product_title.value, product_description.value, product_price.value, product_quantity.value)">Update Commodity</button>
+                          <div class="clearfix"></div>
+                      </form>
+                  </div>
+              </div>
+          </div>
+
+          <div class="col-md-6">
+              <div class="card">
+                  <div class="card-header card-header-danger">
+                      <h4 class="card-title">Update Bought Commodity</h4>
+                      <p class="card-category">Please Fill The Buyer Details</p>
+                  </div>
+                  <div class="card-body">
+                      <form>
+                        <div>
+                            <mat-form-field class="example-full-width">
+                              <label>Buyer's Name</label>
+                              <input matInput placeholder="" #buyer type="text">
+                            </mat-form-field>
+                          </div>
+
+                        <div class="form-group">
+                            <label>Commodity</label>
+                            <select class="form-control" #commodity required>
+                              <option *ngFor="let item of items" [value]="item.id" >{{item.id}} ({{item.product_title}})</option>
+                            </select>
+                          </div>
+
+
+                          <div class="form-group">
+                            <label>Delivery Status</label>
+                            <select class="form-control" [value]="Confirmed" #status required>
+                              <option [value]="Confirmed">Confirmed</option>
+                              <option [value]="Packed">Packed</option>
+                              <option [value]="Shipped">Shipped</option>
+                              <option [value]="Delivered">Delivered</option>
+                            </select>
+                          </div>
+
+                          <div class="form-group">
+                            <label>Payment Options</label>
+                            <select class="form-control"[value]="COD" #payment_option  required>
+                              <option [value]="COD">Cash On Delivery</option>
+                              <option [value]="NB">Net Banking</option>
+                              <option [value]="Paytm">Paytm</option>
+                              <option [value]="CDC">Credit/Debit Card</option>
+                            </select>
+                          </div>
+                          <button mat-raised-button type="submit" class="btn btn-danger pull-right" (click)="addTransaction(buyer.value, commodity.value, status.value, payment_option.value)">Submit</button>
+                          <div class="clearfix"></div>
+                      </form>
+                  </div>
+              </div>
+          </div>
+      <!-- </div> -->
+<!--           <div class="col-md-12">
               <div class="card card-plain">
                   <div class="card-header card-header-danger">
                       <h4 class="card-title mt-0"> Table on Plain Background</h4>
@@ -273,4 +303,4 @@
           </div>
       </div>
   </div>
-</div>
+</div> -->

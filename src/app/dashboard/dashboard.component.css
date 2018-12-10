@@ -2,6 +2,7 @@
 	height: 60px;
 }
 .scroll {
-    max-height: 400px;
+	height: 350px;
+    max-height: 350px;
     overflow-y: auto;
 }

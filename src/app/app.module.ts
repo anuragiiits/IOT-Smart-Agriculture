@@ -21,6 +21,7 @@ import { UpgradeComponent } from './upgrade/upgrade.component';
 import { AdminLayoutComponent } from './layouts/admin-layout/admin-layout.component';
 import { DataService } from './services/data.service';
 import { AgmCoreModule } from '@agm/core';
+import {NgxMqttClientModule} from 'ngx-mqtt-client';
 @NgModule({
   imports: [
     BrowserAnimationsModule,
@@ -29,6 +30,13 @@ import { AgmCoreModule } from '@agm/core';
     ComponentsModule,
     RouterModule,
     AppRoutingModule,
+     NgxMqttClientModule.withOptions({
+            host: 'broker.hivemq.com',
+            protocol: 'ws',
+            port: 8000,
+            path: '/mqtt',
+            keepalive: 5
+        }),
     AgmCoreModule.forRoot({
       // please get your own API key here:
       // https://developers.google.com/maps/documentation/javascript/get-api-key?hl=en

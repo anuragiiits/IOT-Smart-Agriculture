@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-
+import {DataService} from '../services/data.service';
 declare const google: any;
 
 interface Marker {
@@ -15,7 +15,7 @@ draggable?: boolean;
 })
 export class MapsComponent implements OnInit {
 
-  constructor() { }
+  constructor(private dataService:DataService) { }
 
   ngOnInit() {
 
@@ -130,6 +130,14 @@ export class MapsComponent implements OnInit {
     // ]);
 
     // marker2.setMap(map);
+  }
+  addFarm(name, address, lat, long)
+  {
+      console.log(name, address, lat, long);
+      
+     //  this.dataService.getLatLng().subscribe((res)=>{
+     //    console.log(res);
+     // });
   }
 
 }

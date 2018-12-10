@@ -2,20 +2,37 @@ import { Component, OnInit } from '@angular/core';
 import * as Chartist from 'chartist';
 import {DataService} from '../services/data.service';
 import {Router, ActivatedRoute} from '@angular/router';
+import {OnDestroy} from '@angular/core';
+import {ConnectionStatus, MqttService, SubscriptionGrant} from 'ngx-mqtt-client';
+import {IClientOptions} from 'mqtt';
 
+export interface Foo {
+    bar: string;
+}
 
 @Component({
   selector: 'app-dashboard',
   templateUrl: './dashboard.component.html',
   styleUrls: ['./dashboard.component.css']
 })
-export class DashboardComponent implements OnInit {
+export class DashboardComponent implements OnInit,OnDestroy {
   farm_id:string;
   crop_id:string;
   crops:crop[];
   sensors:sensor[];
   weatherApiData:weatherApiData[];
-  constructor(private dataService:DataService, private router:Router, private activatedRouter:ActivatedRoute ) 
+  
+  messages: Array<Foo> = [];
+  status: Array<string> = [];
+
+  items:item[];
+  Total=0.0
+
+  chart_labels=[];
+  chart_values=[
+  []
+  ];
+  constructor(private dataService:DataService, private router:Router, private activatedRouter:ActivatedRoute, private _mqttService: MqttService ) 
   {
     console.log("starting dataService...")
 
@@ -26,6 +43,8 @@ export class DashboardComponent implements OnInit {
     this.dataService.getUsers().subscribe((users)=>{
       console.log(users);
     });
+
+ 
 
     //  this.dataService.getFarm().subscribe((farms)=>{
     //     console.log(farms);
@@ -40,8 +59,81 @@ export class DashboardComponent implements OnInit {
         }
         console.log("crops",this.crops);
      });
-
+     this._mqttService.status().subscribe((s: ConnectionStatus) => {
+            const status = s === ConnectionStatus.CONNECTED ? 'CONNECTED' : 'DISCONNECTED';
+            this.status.push(`Mqtt client connection status: ${status}`);
+        });
+     this.cropSensors(2);
    }
+
+        /**
+     * Manages connection manually.
+     * If there is an active connection this will forcefully disconnect that first.
+     * @param {IClientOptions} config 
+     */
+    connect(config: IClientOptions): void {
+       this._mqttService.connect(config);
+    }
+    subscribe(topic): void {
+        this._mqttService.subscribeTo<Foo>(topic)
+            .subscribe({
+                next: (msg: SubscriptionGrant | Foo) => {
+                    if (msg instanceof SubscriptionGrant) {
+                        this.status.push('Subscribed to ' +topic+  ' topic!');
+                        console.log('Subscribed to ' +topic+  ' topic!')
+
+                    } else {
+                        console.log(msg)
+                        this.messages.push(msg);
+                        let id = topic[topic.length - 1] ;
+                        for (var i = this.sensors.length - 1; i >= 0; i--) {
+                          if(this.sensors[i].id == id)
+                          {
+                            console.log("newId",id);
+                            console.log(this.sensors[i])
+                            this.sensors[i].current_data = String(msg);
+                          }
+                        }
+                    }
+                },
+                error: (error: Error) => {
+                    this.status.push(`Something went wrong: ${error.message}`);
+                }
+            });
+    }
+    sendMsg(topic): void {
+        this._mqttService.publishTo<Foo>(topic, {bar: 'foo'}).subscribe({
+            next: () => {
+                this.status.push('Message sent to ' +topic+  ' topic');
+            },
+            error: (error: Error) => {
+                this.status.push(`Something went wrong: ${error.message}`);
+            }
+        });
+    }
+ 
+    /**
+     * Unsubscribe from fooBar topic.
+     */
+    unsubscribe(): void {
+        this._mqttService.unsubscribeFrom('fooBar').subscribe({
+            next: () => {
+                this.status.push('Unsubscribe from fooBar topic');
+            },
+            error: (error: Error) => {
+                this.status.push(`Something went wrong: ${error.message}`);
+            }
+        });
+    }
+ 
+    /**
+     * The purpose of this is, when the user leave the app we should cleanup our subscriptions
+     * and close the connection with the broker
+     */
+    ngOnDestroy(): void {
+        this._mqttService.end();
+    }
+
   startAnimationForLineChart(chart){
       let seq: any, delays: any, durations: any;
       seq = 0;
@@ -102,9 +194,9 @@ export class DashboardComponent implements OnInit {
       /* ----------==========     Daily Sales Chart initialization For Documentation    ==========---------- */
 
       const dataDailySalesChart: any = {
-          labels: ['M', 'T', 'W', 'T', 'F', 'S', 'S'],
+          labels: ['M', 'T', 'W', 'T', 'F', 'S', 'S', 'M', 'T'],
           series: [
-              [12, 17, 7, 17, 23, 18, 38]
+              [60, 60, 70, 40, 45, 50, 70, 75 ,90]
           ]
       };
 
@@ -113,22 +205,32 @@ export class DashboardComponent implements OnInit {
               tension: 0
           }),
           low: 0,
-          high: 50, // creative tim: we recommend you to set the high sa the biggest value + something for a better look
+          high: 100, // creative tim: we recommend you to set the high sa the biggest value + something for a better look
           chartPadding: { top: 0, right: 0, bottom: 0, left: 0},
       }
 
       var dailySalesChart = new Chartist.Line('#dailySalesChart', dataDailySalesChart, optionsDailySalesChart);
-
       this.startAnimationForLineChart(dailySalesChart);
 
 
       /* ----------==========     Completed Tasks Chart initialization    ==========---------- */
-
+          this.dataService.getItems().subscribe((res)=>{
+            this.Total=0
+           console.log(res);
+           this.items=res;
+           for (var i = this.items.length - 1; i >= 0; i--) {
+             if(this.items[i].sold)
+             {
+               this.Total=this.items[i].product_price+this.Total;
+               this.chart_labels.push('id:'+this.items[i].id)
+               this.chart_values[0].push(this.items[i].product_price)
+             }
+             console.log(this.Total)
+           }
+        
       const dataCompletedTasksChart: any = {
-          labels: ['12p', '3p', '6p', '9p', '12p', '3a', '6a', '9a'],
-          series: [
-              [230, 750, 450, 300, 280, 240, 200, 190]
-          ]
+          labels: this.chart_labels,
+          series: this.chart_values,
       };
 
      const optionsCompletedTasksChart: any = {
@@ -144,15 +246,14 @@ export class DashboardComponent implements OnInit {
 
       // start animation for the Completed Tasks Chart - Line Chart
       this.startAnimationForLineChart(completedTasksChart);
-
-
+      });
 
       /* ----------==========     Emails Subscription Chart initialization    ==========---------- */
 
       var datawebsiteViewsChart = {
         labels: ['J', 'F', 'M', 'A', 'M', 'J', 'J', 'A', 'S', 'O', 'N', 'D'],
         series: [
-          [542, 443, 320, 780, 553, 453, 326, 434, 568, 610, 756, 895]
+          [342, 100, 200, 500, 100, 200, 400, 300, 100, 300, 390, 0]
 
         ]
       };
@@ -161,7 +262,7 @@ export class DashboardComponent implements OnInit {
               showGrid: false
           },
           low: 0,
-          high: 1000,
+          high: 800,
           chartPadding: { top: 0, right: 5, bottom: 0, left: 0}
       };
       var responsiveOptions: any[] = [
@@ -198,6 +299,7 @@ export class DashboardComponent implements OnInit {
           {
             sensors[i].color="card-header-info";
             sensors[i].icon="https://png.pngtree.com/svg/20170828/water_tank_174464.png";
+
           }
           else if(sensors[i].sensor_type=="Turbidity")
           {
@@ -224,14 +326,21 @@ export class DashboardComponent implements OnInit {
             sensors[i].color="card-header-warning";
             sensors[i].icon="https://png.pngtree.com/svg/20170413/cooling_pump_561545.png";
           }
-          
-          console.log(i,sensors[i]);
+          sensors[i].current_data="0";
+          console.log(i,sensors[i],sensors[i].id);
         }
      });
    }
 
-}
 
+  goUp()
+  {
+     for(var i = 0; i < this.sensors.length; ++i) {
+          let topic="id" + String (this.sensors[i].id)
+          this.subscribe(topic)
+      }
+  }
+}
 interface crop
   {
         "id":string,
@@ -248,7 +357,8 @@ interface crop
         "latitude": string,
         "created_on": string,
         "color":string,
-        "icon":string
+        "icon":string,
+        "current_data":string
  }
  interface main
  {
@@ -281,3 +391,14 @@ interface weatherApiData
     "wind":wind,
     "weather":weather[]
 }
+interface item
+  {
+      "id":string,
+      "product_title": string,
+      "product_description": string,
+      "product_price": any,
+      "product_quantity":any,
+      "itemImage": string,
+      "sold": string,
+      "created_on": boolean
+  }

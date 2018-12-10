@@ -1,18 +1,19 @@
 
+
 <div class="main-content" id="c1">
   <div class="container-fluid" >
       <div class="row">
         <!--  -->
-         <div class="col-lg-3 col-md-6 col-sm-6" *ngFor="let sensor of sensors" >
+         <div class="col-lg-4 col-md-6 col-sm-6" *ngFor="let sensor of sensors" >
                 <div class="card card-stats">
                     <div class="card-header {{sensor.color}} card-header-icon">
                         <div class="card-icon">
                             <!-- <i class="material-icons">content_copy</i> -->
-                            <img src="{{sensor.icon}}" class="icon-img">
+                            <img src="{{sensor.icon}}" class="icon-img" style="height: 80px;">
                         </div>
                         <p class="card-category">{{sensor.sensor_type}}</p>
-                        <h3 class="card-title">49/50
-                            <small>GB</small>
+                        <h3 class="card-title">{{sensor.current_data}}
+                            <small></small>
                         </h3>
                     </div>
                     <div class="card-footer">
@@ -140,18 +141,34 @@
 
       <div class="row">
           <div class="col-md-4">
-              <div class="card card-chart">
-                  <div class="card-header card-header-success">
-                      <div class="ct-chart" id="dailySalesChart"></div>
+              <div class="card card-chart" >
+                  <div class="card-header card-header-info">
+                      <div class="ct-chart" id="dailySalesChart" style="width: 130%;"></div>
                   </div>
                   <div class="card-body">
-                      <h4 class="card-title">Daily Sales</h4>
+                      <h4 class="card-title">Water Level</h4>
                       <p class="card-category">
-                          <span class="text-success"><i class="fa fa-long-arrow-up"></i> 55% </span> increase in today sales.</p>
+                          <span class="text-success"><i class="fa fa-long-arrow-up"></i> 12.82% </span> increase in water level.</p>
                   </div>
                   <div class="card-footer">
                       <div class="stats">
-                          <i class="material-icons">access_time</i> updated 4 minutes ago
+                          <i class="material-icons">access_time</i> updated 5 hours ago
+                      </div>
+                  </div>
+              </div>
+          </div>
+           <div class="col-md-4">
+              <div class="card card-chart">
+                  <div class="card-header card-header-danger">
+                      <div class="ct-chart" id="completedTasksChart"></div>
+                  </div>
+                  <div class="card-body">
+                      <h4 class="card-title">Commodity Sales </h4>
+                      <p class="card-category">Total Sale: {{Total}}Rs</p>
+                  </div>
+                  <div class="card-footer">
+                      <div class="stats">
+                          <i class="material-icons">access_time</i> campaign sent 2 days ago
                       </div>
                   </div>
               </div>
@@ -162,43 +179,33 @@
                       <div class="ct-chart" id="websiteViewsChart"></div>
                   </div>
                   <div class="card-body">
-                      <h4 class="card-title">Email Subscriptions</h4>
-                      <p class="card-category">Last Campaign Performance</p>
+                      <h4 class="card-title">Power Consumption By Actuator</h4>
+                      <p class="card-category">
+                          <span class="text-danger"><i class="fa fa-long-arrow-up"></i> 30% </span> increase in power consumption.</p>
+                     <!--  <p class="card-category">
+                          <span class="text-success"><i class="fa fa-long-arrow-up"></i> 50% </span> increase in water level.</p> -->
                   </div>
                   <div class="card-footer">
                       <div class="stats">
-                          <i class="material-icons">access_time</i> campaign sent 2 days ago
+                          <i class="material-icons">access_time</i> data updated 3 days ago
                       </div>
                   </div>
               </div>
           </div>
-          <div class="col-md-4">
-              <div class="card card-chart">
-                  <div class="card-header card-header-danger">
-                      <div class="ct-chart" id="completedTasksChart"></div>
-                  </div>
-                  <div class="card-body">
-                      <h4 class="card-title">Completed Tasks</h4>
-                      <p class="card-category">Last Campaign Performance</p>
-                  </div>
-                  <div class="card-footer">
-                      <div class="stats">
-                          <i class="material-icons">access_time</i> campaign sent 2 days ago
-                      </div>
-                  </div>
-              </div>
-          </div>
+         
       </div>
-      <div class="row">
+
+      <div class="row" style="margin-left: 2%">
+
                   <div class="col-lg-6 col-md-12" >
               <div class="card">
-                  <div class="card-header card-header-warning">
+                  <div class="card-header card-header-success">
                       <h3 class="card-title">Types Of Crops In This Farm.</h3>
                       <h5 class="card-category">Selected Crop Id: {{crop_id}}</h5>
                   </div>
                   <div class="card-body table-responsive">
                       <table class="table table-hover" >
-                          <thead class="text-warning">
+                          <thead class="text-success">
                               <th>Id</th>
                               <th>Crop Type</th>
                               <th>latitude, longitude</th>
@@ -214,7 +221,7 @@
                                 </tr>
                           </tbody>
                       </table>
-                      <a href="dashboard/{{farm_id}}#c1" style="margin-right:0%">Check The Live Sensor Data</a> 
+                      <a href="dashboard/{{farm_id}}#c1" (click)="goUp()" class="text-success" style="margin-right:0%">Check The Live Sensor Data</a> 
                   </div>
               </div>
           </div>
@@ -226,6 +233,12 @@
                           <div class="nav-tabs-wrapper">
                               <span class="nav-tabs-title">Tasks:</span>
                               <ul class="nav nav-tabs" data-tabs="tabs">
+                                <li class="nav-item" (click)="WeatherData()">
+                                      <a mat-button class="nav-link" href="#settings" data-toggle="tab">
+                                          <i class="material-icons">cloud</i> Weather
+                                          <div class="ripple-container"></div>
+                                      </a>
+                                  </li>
                                   <li class="nav-item">
                                       <a mat-button class="nav-link active" href="#profile" data-toggle="tab">
                                           <i class="material-icons">chat_bubble_outline</i>ChatBot
@@ -238,132 +251,45 @@
                                           <div class="ripple-container"></div>
                                       </a>
                                   </li>
-                                  <li class="nav-item">
-                                      <a mat-button class="nav-link" href="#settings" data-toggle="tab">
-                                          <i class="material-icons">cloud</i> Weather
-                                          <div class="ripple-container"></div>
-                                      </a>
-                                  </li>
-                                  <li >
+                                  
+                                  <!-- <li >
                                          <button (click)="WeatherData()" mat-raised-button type="button" matTooltip="Refresh" [matTooltipPosition]="'above'" class="large btn btn-muted btn-link  btn-just-icon" style="color: white">
                                            <i class="material-icons" >refresh</i>
                                          </button>
-                                  </li>
+                                  </li> -->
                               </ul>
                           </div>
                       </div>
                       
                   </div>
 
-                  <div class="card-body">
-                      <div class="tab-content">
+                  <div class="card-body" >
+                      <div class="tab-content" >
                           <div class="tab-pane active" id="profile">
-                              <table class="table">
-                                  <tbody>
-                                      <tr>
-                                          <td>
-                                              <div class="form-check">
-                                                  <label class="form-check-label">
-                                                      <input class="form-check-input" type="checkbox" value="" checked>
-                                                      <span class="form-check-sign">
-                                                          <span class="check"></span>
-                                                      </span>
-                                                  </label>
-                                              </div>
-                                          </td>
-                                          <td>Sign contract for "What are conference organizers afraid of?"</td>
-                                          <td class="td-actions text-right">
-                                              <button mat-raised-button type="button" matTooltip="Edit Task" [matTooltipPosition]="'above'" class="btn btn-primary btn-link btn-sm btn-just-icon">
-                                                  <i class="material-icons">edit</i>
-                                              </button>
-                                              <button mat-raised-button type="button" matTooltip="Remove" [matTooltipPosition]="'above'" class="btn btn-danger btn-link btn-sm btn-just-icon">
-                                                  <i class="material-icons">close</i>
-                                              </button>
-                                          </td>
-                                      </tr>
-                                      <tr>
-                                          <td>
-                                              <div class="form-check">
-                                                  <label class="form-check-label">
-                                                      <input class="form-check-input" type="checkbox" value="">
-                                                      <span class="form-check-sign">
-                                                          <span class="check"></span>
-                                                      </span>
-                                                  </label>
-                                              </div>
-                                          </td>
-                                          <td>Lines From Great Russian Literature? Or E-mails From My Boss?</td>
-                                          <td class="td-actions text-right">
-                                              <button mat-raised-button type="button" matTooltip="Edit Task" [matTooltipPosition]="'above'" class="btn btn-primary btn-link btn-sm btn-just-icon">
-                                                  <i class="material-icons">edit</i>
-                                              </button>
-                                              <button mat-raised-button type="button" matTooltip="Remove" [matTooltipPosition]="'above'" class="btn btn-danger btn-link btn-sm btn-just-icon">
-                                                  <i class="material-icons">close</i>
-                                              </button>
-                                          </td>
-                                      </tr>
-                                      <tr>
-                                          <td>
-                                              <div class="form-check">
-                                                  <label class="form-check-label">
-                                                      <input class="form-check-input" type="checkbox" value="">
-                                                      <span class="form-check-sign">
-                                                          <span class="check"></span>
-                                                      </span>
-                                                  </label>
-                                              </div>
-                                          </td>
-                                          <td>Flooded: One year later, assessing what was lost and what was found when a ravaging rain swept through metro Detroit
-                                          </td>
-                                          <td class="td-actions text-right">
-                                              <button mat-raised-button type="button" matTooltip="Edit Task" [matTooltipPosition]="'above'" class="btn btn-primary btn-link btn-sm btn-just-icon">
-                                                  <i class="material-icons">edit</i>
-                                              </button>
-                                              <button mat-raised-button type="button" matTooltip="Remove" [matTooltipPosition]="'above'" class="btn btn-danger btn-link btn-sm btn-just-icon">
-                                                  <i class="material-icons">close</i>
-                                              </button>
-                                          </td>
-                                      </tr>
-                                      <tr>
-                                          <td>
-                                              <div class="form-check">
-                                                  <label class="form-check-label">
-                                                      <input class="form-check-input" type="checkbox" value="" checked>
-                                                      <span class="form-check-sign">
-                                                          <span class="check"></span>
-                                                      </span>
-                                                  </label>
-                                              </div>
-                                          </td>
-                                          <td>Create 4 Invisible User Experiences you Never Knew About</td>
-                                          <td class="td-actions text-right">
-                                              <button mat-raised-button type="button" matTooltip="Edit Task" [matTooltipPosition]="'above'" class="btn btn-primary btn-link btn-sm btn-just-icon">
-                                                  <i class="material-icons">edit</i>
-                                              </button>
-                                              <button mat-raised-button type="button" matTooltip="Remove" [matTooltipPosition]="'above'" class="btn btn-danger btn-link btn-sm btn-just-icon">
-                                                  <i class="material-icons">close</i>
-                                              </button>
-                                          </td>
-                                      </tr>
-                                  </tbody>
-                              </table>
+                             
+                                  <iframe
+                                    style="margin-top: -80px;margin-left: 10px;"
+                                    allow="microphone;"
+                                    width="400"
+                                    height="450"
+                                    src="https://console.dialogflow.com/api-client/demo/embedded/7c1ad663-b4cb-45ea-9387-eff9eee72a7a">
+                                </iframe>
                           </div>
                           <div class="tab-pane" id="messages">
                               <table class="table">
                                   <tbody>
-                                      <tr>
-                                          <td>
-                                              <div class="form-check">
-                                                  <label class="form-check-label">
-                                                      <input class="form-check-input" type="checkbox" value="" checked>
-                                                      <span class="form-check-sign">
-                                                          <span class="check"></span>
-                                                      </span>
-                                                  </label>
-                                              </div>
-                                          </td>
-                                          <td>Flooded: One year later, assessing what was lost and what was found when a ravaging rain swept through metro Detroit
-                                          </td>
+                                      <tr >
+                                        <th>Product Title</th>
+                                          <th>Description</th>
+                                          <th>Price</th>
+                                          <th>Quantity</th>
+                                          </tr>
+                                         <tr *ngFor="let item of items">
+                                          <td>{{item.product_title}}</td>
+                                            <td>{{item.product_description}}</td>
+                                              <td>{{item.product_price}}</td>
+                                                <td>{{item.product_quantity}}</td>
+
                                           <td class="td-actions text-right">
                                               <button mat-raised-button type="button" matTooltip="Edit Task" [matTooltipPosition]="'above'" class="btn btn-primary btn-link btn-sm btn-just-icon">
                                                   <i class="material-icons">edit</i>
@@ -373,94 +299,20 @@
                                               </button>
                                           </td>
                                       </tr>
-                                      <tr>
-                                          <td>
-                                              <div class="form-check">
-                                                  <label class="form-check-label">
-                                                      <input class="form-check-input" type="checkbox" value="">
-                                                      <span class="form-check-sign">
-                                                          <span class="check"></span>
-                                                      </span>
-                                                  </label>
-                                              </div>
-                                          </td>
-                                          <td>Sign contract for "What are conference organizers afraid of?"</td>
-                                          <td class="td-actions text-right">
-                                              <button mat-raised-button type="button" matTooltip="Edit Task" [matTooltipPosition]="'above'" class="btn btn-primary btn-link btn-sm btn-just-icon">
-                                                  <i class="material-icons">edit</i>
-                                              </button>
-                                              <button mat-raised-button type="button" matTooltip="Remove" [matTooltipPosition]="'above'" class="btn btn-danger btn-link btn-sm btn-just-icon">
-                                                  <i class="material-icons">close</i>
-                                              </button>
-                                          </td>
-                                      </tr>
+                              
                                   </tbody>
                               </table>
                           </div>
                           <div class="tab-pane scroll" id="settings" >
                               <table class="table">
-                                  <tbody>
-                                      <!-- <tr>
-                                          <td>
-                                              <div class="form-check">
-                                                  <label class="form-check-label">
-                                                      <input class="form-check-input" type="checkbox" value="">
-                                                      <span class="form-check-sign">
-                                                          <span class="check"></span>
-                                                      </span>
-                                                  </label>
-                                              </div>
-                                          </td>
-                                          <td>Lines From Great Russian Literature? Or E-mails From My Boss?</td>
-                                          <td class="td-actions text-right">
-                                              <button mat-raised-button type="button" matTooltip="Edit Task" [matTooltipPosition]="'above'" class="btn btn-primary btn-link btn-sm btn-just-icon">
-                                                  <i class="material-icons">edit</i>
-                                              </button>
-                                              <button mat-raised-button type="button" matTooltip="Remove" [matTooltipPosition]="'above'" class="btn btn-danger btn-link btn-sm btn-just-icon">
-                                                  <i class="material-icons">close</i>
-                                              </button>
-                                          </td>
-                                      </tr>
-                                      <tr>
-                                          <td>
-                                              <div class="form-check">
-                                                  <label class="form-check-label">
-                                                      <input class="form-check-input" type="checkbox" value="" checked>
-                                                      <span class="form-check-sign">
-                                                          <span class="check"></span>
-                                                      </span>
-                                                  </label>
-                                              </div>
-                                          </td>
-                                          <td>Flooded: One year later, assessing what was lost and what was found when a ravaging rain swept through metro Detroit
-                                          </td>
-                                          <td class="td-actions text-right">
-                                              <button mat-raised-button type="button" matTooltip="Edit Task" [matTooltipPosition]="'above'" class="btn btn-primary btn-link btn-sm btn-just-icon">
-                                                  <i class="material-icons">edit</i>
-                                              </button>
-                                              <button mat-raised-button type="button" matTooltip="Remove" [matTooltipPosition]="'above'" class="btn btn-danger btn-link btn-sm btn-just-icon">
-                                                  <i class="material-icons">close</i>
-                                              </button>
-                                          </td>
-                                      </tr> -->
+                                  <tbody >
                                       <tr *ngFor="let data of weatherApiData">
                                           <td>
                                               <div class="form-check">
-                                                  <!-- <label class="form-check-label">
-                                                      <input class="form-check-input" type="checkbox" value="" checked>
-                                                      <span class="form-check-sign">
-                                                          <span class="check"></span>
-                                                      </span>
-                                                  </label> -->
                                                   <img src="http://openweathermap.org/img/w/{{data.weather[0].icon}}.png">  
                                               </div>
                                           </td>
                                           <td>
-                                              <!-- weather{{data.weather[0].description}}<br>
-                                              icon{{data.weather[0].icon}}<br> -->
-                                              
-                                          
-                                             <!-- <img src="http://openweathermap.org/img/w/{{data.weather[0].icon}}.png">   -->
                                              <h3>
                                              {{data.weather[0].description}}
                                              </h3>
@@ -483,21 +335,8 @@
                                                          
                                                     </tbody>
                                                 </table>
-                                              <!-- wind speed: {{data.wind.speed}}<br>
-                                              humidity: {{data.main.humidity}}<br>
-                                              pressure: {{data.main.pressure}}<br>
-                                              temp: {{data.main.temp}}<br> -->
-                                              <h5 class="card-category text-gray" style="font-size: 13px;margin-left: 60%">{{data.dt_txt.split(' ')[1]}} | {{data.dt_txt.split(' ')[0]}}</h5>
-                                            
+                                              <h5 class="card-category text-gray" style="font-size: 13px;margin-left: 60%">{{data.dt_txt.split(' ')[1]}} | {{data.dt_txt.split(' ')[0]}}</h5>                  
                                          </td>
-                                          <!-- <td class="td-actions text-right">
-                                              <button mat-raised-button type="button" matTooltip="Edit Task" [matTooltipPosition]="'above'" class="btn btn-primary btn-link btn-sm btn-just-icon">
-                                                  <i class="material-icons">edit</i>
-                                              </button>
-                                              <button mat-raised-button type="button" matTooltip="Remove" [matTooltipPosition]="'above'" class="btn btn-danger btn-link btn-sm btn-just-icon">
-                                                  <i class="material-icons">close</i>
-                                              </button>
-                                          </td> -->
                                       </tr>
                                   </tbody>
                               </table>
@@ -509,3 +348,24 @@
       </div>
   </div>
 </div>
+<!-- 
+<button mat-raised-button (click)="subscribe('1')">SUBSCRIBE TO FOOBAR TOPIC</button>
+<button mat-raised-button (click)="subscribe('4')">SUBSCRIBE TO FOOBAR TOPIC</button>
+<button mat-raised-button (click)="sendMsg('1')">SEND FOOBAR MESSAGE</button>
+<button mat-raised-button (click)="sendMsg('4')">SEND FOOBAR MESSAGE</button>
+<button mat-raised-button (click)="unsubscribe()">UNSUBSCRIBE FROM FOOBAR TOPIC</button>
+
+<div fxLayout>
+    <div fxFlex="20">
+        <h1>Messages:</h1>
+        <p *ngFor="let message of messages">
+            {{message | json}}
+        </p>
+    </div>
+    <div>
+        <h1>Status info:</h1>
+        <p *ngFor="let statusMessage of status">
+            {{statusMessage}}
+        </p>
+    </div>
+</div> -->

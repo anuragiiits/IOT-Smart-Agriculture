@@ -61,7 +61,7 @@ showNotification(from, align,id){
 		     	console.log(res);
 		     	this.BuyerObj=res;
 		     	console.log("this.BuyerObj",this.BuyerObj);
-		     	console.log('http://127.0.0.1:8000'+this.BuyerObj.buyer.avatar)
+		     	console.log('http://35.200.250.64:8889'+this.BuyerObj.buyer.avatar)
 		     
       const type = ['info','success','warning','danger','primary'];
 
@@ -98,7 +98,7 @@ showNotification(from, align,id){
                               '</thead>'+
                               '<tbody>'+
                                   '<tr>'+
-                                  		'<td>'+`<img src="http://127.0.0.1:8000/media/default_avatar.png" height=70px;>` +'</td>'+
+                                  		'<td>'+`<img src="http://35.200.250.64:8889/media/default_avatar.png" height=70px;>` +'</td>'+
 										'<td>'+this.BuyerObj.buyer.username +'</td>'+
 										'<td>'+this.BuyerObj.paymentOption+'</td>'+
 										'<td>'+this.BuyerObj.status+'</td>'+
@@ -146,7 +146,7 @@ showNotification(from, align,id){
                               '</thead>'+
                               '<tbody>'+
                                   '<tr>'+
-                                  		'<td>'+`<img src="http://127.0.0.1:8000/media/default_avatar.png" height=70px;>` +'</td>'+
+                                  		'<td>'+`<img src="http://35.200.250.64:8889/media/default_avatar.png" height=70px;>` +'</td>'+
 										'<td>'+this.BuyerObj.buyer.username +'</td>'+
 										'<td>'+this.BuyerObj.paymentOption+'</td>'+
 										'<td>'+this.BuyerObj.status+'</td>'+

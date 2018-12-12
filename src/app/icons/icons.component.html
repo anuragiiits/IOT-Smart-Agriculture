@@ -10,12 +10,12 @@
           </div>
           <div class="row" >
             <!-- <a routerLink="/dashboard">lol</a> -->
-            <div class="col-md-4" *ngFor="let farm of farms; let img = 'http://127.0.0.1:8000'" >
+            <div class="col-md-4" *ngFor="let farm of farms; let img = 'http://35.200.250.64:8889'" >
                <!-- <a routerLink="/dashboard"> -->
                 <div class="card card-chart" (click)="goToCrops(farm.id)" >
                     <div >
                         <!-- <div class="ct-chart" id="websiteViewsChart"></div> -->
-                        <img class ="profile-img" src="http://127.0.0.1:8000{{farm.farmImage}}"/>
+                        <img class ="profile-img" src="http://35.200.250.64:8889{{farm.farmImage}}"/>
                     </div>
                     <div class="card-body" >
                         <h4 class="card-title">{{farm.farm_name}}</h4>

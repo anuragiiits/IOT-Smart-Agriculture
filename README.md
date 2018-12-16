@@ -46,6 +46,7 @@ TechStack:
 <li> Google DialogFlow Framework for ChatBot</li>
 </ol>
 ### Block Diagram
+
 ![alt text](https://github.com/garvitkataria/IOT_Smart_Agriculture_Angular/blob/master/Screenshot%202018-12-17%20at%201.22.10%20AM.png)
 
 ### Architecture Overview

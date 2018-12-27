@@ -57,6 +57,6 @@ TechStack:
 ![alt text](https://github.com/garvitkataria/IOT_Smart_Agriculture_Angular/blob/master/Screenshot%202018-12-17%20at%201.22.41%20AM.png)
 
 
-Team Members:
-Anurag Gupta (S20160010006)
+Team Members:<br>
+Anurag Gupta (S20160010006)<br>
 Garvit Kataria (S20160010028)

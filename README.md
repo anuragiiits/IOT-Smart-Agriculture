@@ -60,3 +60,6 @@ TechStack:
 Team Members:<br>
 Anurag Gupta (S20160010006)<br>
 Garvit Kataria (S20160010028)
+
+Similar Project with minimal functionalities: https://github.com/anuragiiits/Water-Management-System <br>
+Demo: https://www.youtube.com/playlist?list=PLg9wDlrZLOlLuWXhTD6R2TV2N9QN5JQTQ
